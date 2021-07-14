@@ -20,6 +20,7 @@ import java.net.URLClassLoader;
 import java.net.URL;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 
 public class DynamicClassLoader extends URLClassLoader{
 HashMap<Integer, Object[]> constantVals = new HashMap<Integer, Object[]>();
@@ -44,7 +45,7 @@ public DynamicClassLoader(ClassLoader parent){
 public Class defineClass(String name, byte[] bytes, Object srcForm){
 	Util.clearCache(rq, classCache);
 	Class c = defineClass(name, bytes, 0, bytes.length);
-    classCache.put(name, new SoftReference(c,rq));
+    classCache.put(name, new WeakReference(c,rq));
     return c;
 }
 
